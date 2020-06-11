@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: <Widget>[
-          FlatButton(
+          RaisedButton(
               child: Text("模拟在假抽奖动画过程中加入最后结果"),
               onPressed: () {
                 simpleLotteryController.start(

@@ -42,7 +42,7 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
       if (widget.controller.value.isPlaying) {
         // 如果是假的，则只是循环抽奖过程
         if (widget.controller.value.isFake) {
-          _startAnimation(isFake: true);
+          _startFakeAnimation();
         } // 如果在假装抽奖的过程中，设置了target
         else if (isDuringFake) {
           setState(() {
@@ -50,7 +50,7 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
           });
         } // 常规的直接抽奖
         else {
-          _startAnimation();
+          _startActualAnimation();
         }
       }
     };
@@ -66,25 +66,22 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
       StepTween(begin: begin, end: end).animate(CurvedAnimation(
           parent: _startAnimateController, curve: Curves.linear));
 
-  /// 开启抽奖动画
-  ///
-  /// [isFake] false : 表示有实际结果
-  ///          true :  表示开启重复动画，无实际效果
-  _startAnimation({bool isFake = false}) {
+  _startFakeAnimation() {
     _startAnimateController.reset();
-    if (isFake) {
-      _startAnimateController.duration =
-          widget.controller.value.singleRoundFakeDuration;
-      _selectedIndexTween = _initSelectIndexTween(begin: 0, end: _totalIndex);
-      _startAnimateController.repeat();
-    } else {
-      _target = widget.controller.value.target;
-      _startAnimateController.duration = widget.controller.value.duration;
-      _selectedIndexTween = _initSelectIndexTween(
-          begin: 0,
-          end: widget.controller.value.repeatRound * _totalIndex + _target);
-      _startAnimateController.forward();
-    }
+    _startAnimateController.duration =
+        widget.controller.value.singleRoundFakeDuration;
+    _selectedIndexTween = _initSelectIndexTween(begin: 0, end: _totalIndex);
+    _startAnimateController.repeat();
+  }
+
+  _startActualAnimation() {
+    _startAnimateController.reset();
+    _target = widget.controller.value.target;
+    _startAnimateController.duration = widget.controller.value.duration;
+    _selectedIndexTween = _initSelectIndexTween(
+        begin: 0,
+        end: widget.controller.value.repeatRound * _totalIndex + _target);
+    _startAnimateController.forward();
   }
 
   @override
@@ -101,7 +98,7 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
       // 在假的抽奖过程到0位置时, 开启真的抽奖, 主要是起到无缝衔接
       if (_continueToTarget && _currentSelect == 0) {
         _continueToTarget = false;
-        _startAnimation();
+        _startActualAnimation();
       }
       if (_startAnimateController.isCompleted) {
         widget.controller.finish();
