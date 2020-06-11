@@ -47,13 +47,24 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: <Widget>[
           FlatButton(
-            child: Text("开启旋转动画"),
-            onPressed: () => simpleLotteryController.start(isFake: true),
-          ),
+              child: Text("模拟在假抽奖动画过程中加入最后结果"),
+              onPressed: () {
+                simpleLotteryController.start(
+                    isFake: true,
+                    singleRoundFakeDuration: Duration(milliseconds: 1000));
+                Future.delayed(Duration(seconds: 2)).then((_) {
+                  simpleLotteryController.start(
+                      target: 4,
+                      duration: Duration(milliseconds: 2500),
+                      repeatRound: 2);
+                });
+              }),
           Center(
             child: SimpleLotteryWidget(
               controller: simpleLotteryController,
-              onPress: () => simpleLotteryController.start(target: 4),
+              onPress: () {
+                simpleLotteryController.start(target: 4);
+              },
             ),
           ),
         ],

@@ -73,22 +73,24 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
   _startAnimation({bool isFake = false}) {
     _startAnimateController.reset();
     if (isFake) {
-      _startAnimateController.duration = widget.controller.fakeDuration;
+      _startAnimateController.duration =
+          widget.controller.value.singleRoundFakeDuration;
       _selectedIndexTween = _initSelectIndexTween(begin: 0, end: _totalIndex);
       _startAnimateController.repeat();
     } else {
       _target = widget.controller.value.target;
-      _startAnimateController.duration = widget.controller.duration;
+      _startAnimateController.duration = widget.controller.value.duration;
       _selectedIndexTween = _initSelectIndexTween(
-          begin: 0, end: widget.controller.repeatRound * _totalIndex + _target);
+          begin: 0,
+          end: widget.controller.value.repeatRound * _totalIndex + _target);
       _startAnimateController.forward();
     }
   }
 
   @override
   void initState() {
-    _startAnimateController =
-        AnimationController(vsync: this, duration: widget.controller.duration);
+    _startAnimateController = AnimationController(
+        vsync: this, duration: widget.controller.value.duration);
     _selectedIndexTween = _initSelectIndexTween(begin: 0, end: _totalIndex);
 
     // 动画监听
@@ -160,4 +162,3 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
             }));
   }
 }
-
