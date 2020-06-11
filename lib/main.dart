@@ -43,11 +43,19 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: SimpleLotteryWidget(
-          controller: simpleLotteryController,
-          onPress: () => simpleLotteryController.start(target: 4),
-        ),
+      body: Column(
+        children: <Widget>[
+          FlatButton(
+            child: Text("开启旋转动画"),
+            onPressed: () => simpleLotteryController.start(isFake: true),
+          ),
+          Center(
+            child: SimpleLotteryWidget(
+              controller: simpleLotteryController,
+              onPress: () => simpleLotteryController.start(target: 4),
+            ),
+          ),
+        ],
       ),
     );
   }
