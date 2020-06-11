@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simplegridlottery/simple_lottery_widget.dart';
+import 'package:simplegridlottery/widget/simple_lottery_controller.dart';
+import 'package:simplegridlottery/widget/simple_lottery_widget.dart';
 
 void main() => runApp(MyApp());
 
