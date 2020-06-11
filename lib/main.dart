@@ -32,11 +32,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     simpleLotteryController = SimpleLotteryController();
     simpleLotteryController.addListener(() {
-      if(simpleLotteryController.value.isPlaying){
-
-      }else if(simpleLotteryController.value.isFinish){
-
-      }
+      if (simpleLotteryController.value.isPlaying) {
+      } else if (simpleLotteryController.value.isFinish) {}
       print(simpleLotteryController.value.toString());
     });
     super.initState();
@@ -53,8 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
           RaisedButton(
               child: Text("模拟在假抽奖动画过程中加入最后结果"),
               onPressed: () {
-                simpleLotteryController.start(
-                    isFake: true,
+                simpleLotteryController.startFake(
                     singleRoundFakeDuration: Duration(milliseconds: 1000));
                 Future.delayed(Duration(seconds: 2)).then((_) {
                   simpleLotteryController.start(

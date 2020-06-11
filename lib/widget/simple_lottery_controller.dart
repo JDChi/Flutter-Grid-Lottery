@@ -59,14 +59,7 @@ class SimpleLotteryController extends ValueNotifier<SimpleLotteryValue> {
   /// 开启抽奖
   ///
   /// [target] 中奖目标
-  ///
-  /// [isFake] 是否只是循环播放动画，如果为true，则会忽略target，只是循环播放抽奖过程
-  void start(
-      {int target = 0,
-      bool isFake = false,
-      Duration singleRoundFakeDuration,
-      Duration duration,
-      int repeatRound}) {
+  void start({int target = 0, Duration duration, int repeatRound}) {
     // 九宫格抽奖里范围为0~8
     assert(target >= 0 && target <= 8);
     // 如果是在实际抽奖过程中，则不能多次start
@@ -76,10 +69,20 @@ class SimpleLotteryController extends ValueNotifier<SimpleLotteryValue> {
     value = value.copyWith(
         target: target,
         isPlaying: true,
-        isFake: isFake,
-        singleRoundFakeDuration: singleRoundFakeDuration,
+        isFake: false,
         duration: duration,
         repeatRound: repeatRound);
+  }
+
+  /// 开启假的抽奖动画
+  void startFake({Duration singleRoundFakeDuration}) {
+    if (value.isPlaying) {
+      return;
+    }
+    value = value.copyWith(
+        isPlaying: true,
+        isFake: true,
+        singleRoundFakeDuration: singleRoundFakeDuration);
   }
 
   void finish() {
