@@ -32,8 +32,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     simpleLotteryController = SimpleLotteryController();
     simpleLotteryController.addListener(() {
-      if (simpleLotteryController.value.isPlaying) {
-      } else if (simpleLotteryController.value.isFinish) {}
+      if(simpleLotteryController.value.isPlaying){
+
+      }else if(simpleLotteryController.value.isFinish){
+
+      }
+      print(simpleLotteryController.value.toString());
     });
     super.initState();
   }
@@ -63,7 +67,10 @@ class _MyHomePageState extends State<MyHomePage> {
             child: SimpleLotteryWidget(
               controller: simpleLotteryController,
               onPress: () {
-                simpleLotteryController.start(target: 4);
+                simpleLotteryController.start(
+                    target: 4,
+                    duration: Duration(milliseconds: 2500),
+                    repeatRound: 2);
               },
             ),
           ),
