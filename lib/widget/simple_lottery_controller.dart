@@ -6,6 +6,7 @@ class SimpleLotteryValue {
       this.isFinish = false,
       this.isPlaying = false,
       this.isFake = false,
+      this.isSetTargetDuringFake = false,
       this.singleRoundFakeDuration = const Duration(),
       this.duration = const Duration(),
       this.repeatRound = 1});
@@ -18,6 +19,7 @@ class SimpleLotteryValue {
 
   /// 只是进行动画，无抽奖结果
   final bool isFake;
+  final bool isSetTargetDuringFake;
 
   /// 转动的圈数
   final int repeatRound;
@@ -33,6 +35,7 @@ class SimpleLotteryValue {
       bool isPlaying,
       bool isFinish,
       bool isFake,
+      bool isSetTargetDuringFake,
       int repeatRound,
       Duration duration,
       Duration singleRoundFakeDuration}) {
@@ -41,6 +44,8 @@ class SimpleLotteryValue {
         isFinish: isFinish ?? this.isFinish,
         isPlaying: isPlaying ?? this.isPlaying,
         isFake: isFake ?? this.isFake,
+        isSetTargetDuringFake:
+            isSetTargetDuringFake ?? this.isSetTargetDuringFake,
         repeatRound: repeatRound ?? this.repeatRound,
         duration: duration ?? this.duration,
         singleRoundFakeDuration:
@@ -49,7 +54,12 @@ class SimpleLotteryValue {
 
   @override
   String toString() {
-    return "$runtimeType(target : $target , isPlaying : $isPlaying , isFinish : $isFinish , isFake : $isFake , repeatRound : $repeatRound)";
+    return "$runtimeType(target : $target , "
+        "isPlaying : $isPlaying , "
+        "isFinish : $isFinish , "
+        "isFake : $isFake , "
+        "isSetTargetDuringFake : $isSetTargetDuringFake , "
+        "repeatRound : $repeatRound)";
   }
 }
 
@@ -70,6 +80,7 @@ class SimpleLotteryController extends ValueNotifier<SimpleLotteryValue> {
         target: target,
         isPlaying: true,
         isFake: false,
+        isSetTargetDuringFake: value.isFake,
         duration: duration,
         repeatRound: repeatRound);
   }
@@ -86,6 +97,10 @@ class SimpleLotteryController extends ValueNotifier<SimpleLotteryValue> {
   }
 
   void finish() {
-    value = value.copyWith(isFinish: true, isPlaying: false);
+    value = value.copyWith(
+        isFinish: true,
+        isPlaying: false,
+        isSetTargetDuringFake: false,
+        isFake: false);
   }
 }

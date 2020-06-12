@@ -44,7 +44,7 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
         if (widget.controller.value.isFake) {
           _startFakeAnimation();
         } // 如果在假装抽奖的过程中，设置了target
-        else if (isDuringFake) {
+        else if (widget.controller.value.isSetTargetDuringFake) {
           setState(() {
             _continueToTarget = true;
           });
@@ -55,9 +55,6 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
       }
     };
   }
-
-  bool get isDuringFake =>
-      !widget.controller.value.isFake && _startAnimateController.isAnimating;
 
   /// 初始化tween
   ///
