@@ -24,7 +24,7 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
   bool _continueToTarget = false;
 
   /// 选中下标的映射
-  final Map<int, int> _selectMap = {
+  final Map<int, int> _selectIndexMap = const {
     0: 0,
     1: 3,
     2: 6,
@@ -67,33 +67,33 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
           parent: _startAnimateController, curve: Curves.linear));
 
   _startFakeAnimation() {
-    _startAnimateController.reset();
-    _startAnimateController.duration =
-        widget.controller.value.singleRoundFakeDuration;
-    _selectedIndexTween = _initSelectIndexTween(begin: 0, end: _totalIndex);
-    _startAnimateController.repeat();
+    _selectedIndexTween = _initSelectIndexTween(end: _totalIndex);
+    _startAnimateController
+      ..reset()
+      ..duration = widget.controller.value.singleRoundFakeDuration
+      ..repeat();
   }
 
   _startActualAnimation() {
-    _startAnimateController.reset();
-    _startAnimateController.duration = widget.controller.value.duration;
     _selectedIndexTween = _initSelectIndexTween(
-        begin: 0,
         end: widget.controller.value.repeatRound * _totalIndex +
             widget.controller.value.target);
-    _startAnimateController.forward();
+    _startAnimateController
+      ..reset()
+      ..duration = widget.controller.value.duration
+      ..forward();
   }
 
   @override
   void initState() {
     _startAnimateController = AnimationController(
         vsync: this, duration: widget.controller.value.duration);
-    _selectedIndexTween = _initSelectIndexTween(begin: 0, end: _totalIndex);
+    _selectedIndexTween = _initSelectIndexTween(end: _totalIndex);
 
     // 动画监听
     _startAnimateController.addListener(() {
       // 更新选中的下标
-      _currentSelect = _selectMap[_selectedIndexTween.value % _totalIndex];
+      _currentSelect = _selectIndexMap[_selectedIndexTween.value % _totalIndex];
 
       // 在假的抽奖过程到0位置时, 开启真的抽奖, 主要是起到无缝衔接
       if (_continueToTarget && _currentSelect == 0) {
