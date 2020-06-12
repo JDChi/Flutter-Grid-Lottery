@@ -11,13 +11,13 @@ class SimpleLotteryValue {
       this.repeatRound = 1});
 
   /// 中奖目标
-  int target = 0;
+  final int target;
 
-  bool isPlaying = false;
-  bool isFinish = false;
+  final bool isPlaying;
+  final bool isFinish;
 
   /// 只是进行动画，无抽奖结果
-  bool isFake = false;
+  final bool isFake;
 
   /// 转动的圈数
   final int repeatRound;
