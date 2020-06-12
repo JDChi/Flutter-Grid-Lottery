@@ -17,7 +17,6 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
   Animation<int> _selectedIndexTween;
   AnimationController _startAnimateController;
   int _currentSelect = -1;
-  int _target = 0;
   final int _totalIndex = 8;
 
   VoidCallback _listener;
@@ -76,11 +75,11 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
 
   _startActualAnimation() {
     _startAnimateController.reset();
-    _target = widget.controller.value.target;
     _startAnimateController.duration = widget.controller.value.duration;
     _selectedIndexTween = _initSelectIndexTween(
         begin: 0,
-        end: widget.controller.value.repeatRound * _totalIndex + _target);
+        end: widget.controller.value.repeatRound * _totalIndex +
+            widget.controller.value.target);
     _startAnimateController.forward();
   }
 
