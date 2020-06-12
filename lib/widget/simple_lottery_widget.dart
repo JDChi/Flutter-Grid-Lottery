@@ -6,7 +6,8 @@ class SimpleLotteryWidget extends StatefulWidget {
   final SimpleLotteryController controller;
   final Function onPress;
 
-  SimpleLotteryWidget({Key key, @required this.controller, this.onPress});
+  SimpleLotteryWidget({Key key, @required this.controller, this.onPress})
+      : assert(controller != null);
 
   @override
   _SimpleLotteryWidgetState createState() => _SimpleLotteryWidgetState();
