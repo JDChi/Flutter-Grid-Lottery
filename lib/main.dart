@@ -27,10 +27,20 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   SimpleLotteryController simpleLotteryController;
+  List<String> rewardsList;
 
   @override
   void initState() {
-    simpleLotteryController = SimpleLotteryController();
+    rewardsList = List()
+      ..add("images/gift1.jpg")
+      ..add("images/gift2.jpg")
+      ..add("images/gift1.jpg")
+      ..add("images/gift2.jpg")
+      ..add("images/gift1.jpg")
+      ..add("images/gift2.jpg")
+      ..add("images/gift1.jpg")
+      ..add("images/gift2.jpg");
+    simpleLotteryController = SimpleLotteryController(rewardsList: rewardsList);
     simpleLotteryController.addListener(() {
       if (simpleLotteryController.value.isPlaying) {
       } else if (simpleLotteryController.value.isFinish) {}

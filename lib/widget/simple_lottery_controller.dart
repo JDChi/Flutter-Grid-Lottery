@@ -9,7 +9,8 @@ class SimpleLotteryValue {
       this.isSetTargetDuringFake = false,
       this.singleRoundFakeDuration = const Duration(),
       this.duration = const Duration(),
-      this.repeatRound = 1});
+      this.repeatRound = 1,
+      this.rewardsList});
 
   /// 中奖目标
   final int target;
@@ -27,6 +28,9 @@ class SimpleLotteryValue {
   /// 实际抽奖总耗时
   final Duration duration;
 
+  /// 奖品列表
+  final List<String> rewardsList;
+
   /// 假抽奖单圈耗时
   final Duration singleRoundFakeDuration;
 
@@ -38,6 +42,7 @@ class SimpleLotteryValue {
       bool isSetTargetDuringFake,
       int repeatRound,
       Duration duration,
+      List<String> rewardsList,
       Duration singleRoundFakeDuration}) {
     return SimpleLotteryValue(
         target: target ?? this.target,
@@ -49,7 +54,8 @@ class SimpleLotteryValue {
         repeatRound: repeatRound ?? this.repeatRound,
         duration: duration ?? this.duration,
         singleRoundFakeDuration:
-            singleRoundFakeDuration ?? this.singleRoundFakeDuration);
+            singleRoundFakeDuration ?? this.singleRoundFakeDuration,
+        rewardsList: rewardsList ?? this.rewardsList);
   }
 
   @override
@@ -64,7 +70,8 @@ class SimpleLotteryValue {
 }
 
 class SimpleLotteryController extends ValueNotifier<SimpleLotteryValue> {
-  SimpleLotteryController() : super(SimpleLotteryValue());
+  SimpleLotteryController({@required List<String> rewardsList})
+      : super(SimpleLotteryValue(rewardsList: rewardsList));
 
   /// 开启抽奖
   ///

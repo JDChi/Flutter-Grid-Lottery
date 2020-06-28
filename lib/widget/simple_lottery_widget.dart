@@ -35,6 +35,18 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
     7: 1
   };
 
+  /// 反向map
+  final Map<int, int> _reverseSelectMap = const {
+    0: 0,
+    3: 1,
+    6: 2,
+    7: 3,
+    8: 4,
+    5: 5,
+    2: 6,
+    1: 7
+  };
+
   _SimpleLotteryWidgetState() {
     _listener = () {
       _continueToTarget = false;
@@ -136,12 +148,14 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
                   child: Stack(
                     alignment: Alignment.center,
                     children: <Widget>[
+                      Image.asset(widget.controller.value
+                          .rewardsList[_reverseSelectMap[index]]),
                       Container(
                         width: 50,
                         height: 50,
                         color: index == _currentSelect
-                            ? Colors.blue
-                            : Colors.amber,
+                            ? Colors.blue.withOpacity(0.5)
+                            : Colors.amber.withOpacity(0.5),
                       ),
                     ],
                   ),
