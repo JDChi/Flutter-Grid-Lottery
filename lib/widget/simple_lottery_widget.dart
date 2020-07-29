@@ -71,9 +71,10 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
   /// 初始化tween
   ///
   /// [target] 中奖的目标
-  Animation _initSelectIndexTween({int begin = 0, int end = 0}) =>
-      StepTween(begin: begin, end: end).animate(CurvedAnimation(
-          parent: _startAnimateController, curve: Curves.linear));
+  Animation _initSelectIndexTween(
+          {int begin = 0, int end = 0, Curve curve = Curves.linear}) =>
+      StepTween(begin: begin, end: end).animate(
+          CurvedAnimation(parent: _startAnimateController, curve: curve));
 
   _startFakeAnimation() {
     _selectedIndexTween = _initSelectIndexTween(end: _totalIndex);
@@ -86,7 +87,8 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
   _startActualAnimation() {
     _selectedIndexTween = _initSelectIndexTween(
         end: widget.controller.value.repeatRound * _totalIndex +
-            widget.controller.value.target);
+            widget.controller.value.target,
+        curve: Curves.easeOutCubic);
     _startAnimateController
       ..reset()
       ..duration = widget.controller.value.duration
