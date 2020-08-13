@@ -69,13 +69,23 @@ class SimpleLotteryValue {
   }
 }
 
-class SimpleLotteryController extends ValueNotifier<SimpleLotteryValue> {
+abstract class IController {
+  void start({int target, Duration duration, int repeatRound});
+
+  void startFake({Duration singleRoundFakeDuration});
+
+  void finish();
+}
+
+class SimpleLotteryController extends ValueNotifier<SimpleLotteryValue>
+    implements IController {
   SimpleLotteryController({@required List<String> rewardsList})
       : super(SimpleLotteryValue(rewardsList: rewardsList));
 
   /// 开启抽奖
   ///
   /// [target] 中奖目标
+  @override
   void start({int target = 0, Duration duration, int repeatRound}) {
     // 九宫格抽奖里范围为0~8
     assert(target >= 0 && target <= 8);
@@ -93,6 +103,7 @@ class SimpleLotteryController extends ValueNotifier<SimpleLotteryValue> {
   }
 
   /// 开启假的抽奖动画
+  @override
   void startFake({Duration singleRoundFakeDuration}) {
     if (value.isPlaying) {
       return;
@@ -103,6 +114,7 @@ class SimpleLotteryController extends ValueNotifier<SimpleLotteryValue> {
         singleRoundFakeDuration: singleRoundFakeDuration);
   }
 
+  @override
   void finish() {
     value = value.copyWith(
         isFinish: true,
