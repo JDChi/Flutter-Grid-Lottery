@@ -98,11 +98,16 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
   @override
   void didUpdateWidget(covariant SimpleLotteryWidget oldWidget) {
     if (oldWidget.controller != widget.controller) {
-      oldWidget.controller.removeListener(_listener);
-      widget.controller.addListener(_listener);
-      _rewardsList = widget.controller.value.rewardsList;
+      _reset(oldWidget);
     }
     super.didUpdateWidget(oldWidget);
+  }
+
+  _reset(SimpleLotteryWidget oldWidget) {
+    oldWidget.controller.removeListener(_listener);
+    widget.controller.addListener(_listener);
+    _rewardsList = widget.controller.value.rewardsList;
+    _currentSelect = -1;
   }
 
   @override

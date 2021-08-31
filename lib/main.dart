@@ -43,9 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
     simpleLotteryController = SimpleLotteryController(rewardsList: rewardsList);
     simpleLotteryController.addListener(() {
       if (simpleLotteryController.value.isPlaying) {
-      } else if (simpleLotteryController.value.isFinish) {
-        _resetRewardList();
-      }
+      } else if (simpleLotteryController.value.isFinish) {}
       print(simpleLotteryController.value.toString());
     });
     super.initState();
@@ -82,6 +80,11 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
+          TextButton(
+              onPressed: () {
+                _resetRewardList();
+              },
+              child: Text('Reset'))
         ],
       ),
     );
