@@ -21,6 +21,7 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
 
   late VoidCallback _listener;
   bool _continueToTarget = false;
+  late List<String> _rewardsList;
 
   /// 选中下标的映射
   final Map<int, int> _selectIndexMap = const {
@@ -95,6 +96,16 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
   }
 
   @override
+  void didUpdateWidget(covariant SimpleLotteryWidget oldWidget) {
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller.removeListener(_listener);
+      widget.controller.addListener(_listener);
+      _rewardsList = widget.controller.value.rewardsList;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void initState() {
     _startAnimateController = AnimationController(
         vsync: this, duration: widget.controller.value.duration);
@@ -119,7 +130,7 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
 
     // 控制监听
     widget.controller.addListener(_listener);
-
+    _rewardsList = widget.controller.value.rewardsList;
     super.initState();
   }
 
@@ -150,8 +161,7 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
                   child: Stack(
                     alignment: Alignment.center,
                     children: <Widget>[
-                      Image.asset(widget.controller.value
-                          .rewardsList[_reverseSelectMap[index]!]),
+                      Image.asset(_rewardsList[_reverseSelectMap[index]!]),
                       Container(
                         width: 50,
                         height: 50,

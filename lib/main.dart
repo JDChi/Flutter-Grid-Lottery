@@ -43,7 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
     simpleLotteryController = SimpleLotteryController(rewardsList: rewardsList);
     simpleLotteryController.addListener(() {
       if (simpleLotteryController.value.isPlaying) {
-      } else if (simpleLotteryController.value.isFinish) {}
+      } else if (simpleLotteryController.value.isFinish) {
+        _resetRewardList();
+      }
       print(simpleLotteryController.value.toString());
     });
     super.initState();
@@ -83,5 +85,23 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
+  }
+
+  /// 当抽奖结束后，变更抽奖列表
+  void _resetRewardList() {
+    setState(() {
+      rewardsList
+        ..clear()
+        ..add("images/gift3.jpg")
+        ..add("images/gift2.jpg")
+        ..add("images/gift3.jpg")
+        ..add("images/gift2.jpg")
+        ..add("images/gift3.jpg")
+        ..add("images/gift2.jpg")
+        ..add("images/gift3.jpg")
+        ..add("images/gift2.jpg");
+      simpleLotteryController =
+          SimpleLotteryController(rewardsList: rewardsList);
+    });
   }
 }
