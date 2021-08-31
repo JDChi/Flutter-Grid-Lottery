@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -26,12 +26,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  SimpleLotteryController simpleLotteryController;
-  List<String> rewardsList;
+  late SimpleLotteryController simpleLotteryController;
+  List<String> rewardsList = [];
 
   @override
   void initState() {
-    rewardsList = List()
+    rewardsList
       ..add("images/gift1.jpg")
       ..add("images/gift2.jpg")
       ..add("images/gift1.jpg")
@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: <Widget>[
-          RaisedButton(
+          TextButton(
               child: Text("模拟在假抽奖动画过程中加入最后结果"),
               onPressed: () {
                 simpleLotteryController.startFake(

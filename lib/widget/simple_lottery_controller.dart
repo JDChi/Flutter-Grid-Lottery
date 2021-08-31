@@ -10,7 +10,7 @@ class SimpleLotteryValue {
       this.singleRoundFakeDuration = const Duration(),
       this.duration = const Duration(),
       this.repeatRound = 1,
-      this.rewardsList});
+      required this.rewardsList});
 
   /// 中奖目标
   final int target;
@@ -35,15 +35,15 @@ class SimpleLotteryValue {
   final Duration singleRoundFakeDuration;
 
   SimpleLotteryValue copyWith(
-      {int target,
-      bool isPlaying,
-      bool isFinish,
-      bool isFake,
-      bool isSetTargetDuringFake,
-      int repeatRound,
-      Duration duration,
-      List<String> rewardsList,
-      Duration singleRoundFakeDuration}) {
+      {int? target,
+      bool? isPlaying,
+      bool? isFinish,
+      bool? isFake,
+      bool? isSetTargetDuringFake,
+      int? repeatRound,
+      Duration? duration,
+      List<String>? rewardsList,
+      Duration? singleRoundFakeDuration}) {
     return SimpleLotteryValue(
         target: target ?? this.target,
         isFinish: isFinish ?? this.isFinish,
@@ -79,14 +79,14 @@ abstract class IController {
 
 class SimpleLotteryController extends ValueNotifier<SimpleLotteryValue>
     implements IController {
-  SimpleLotteryController({@required List<String> rewardsList})
+  SimpleLotteryController({required List<String> rewardsList})
       : super(SimpleLotteryValue(rewardsList: rewardsList));
 
   /// 开启抽奖
   ///
   /// [target] 中奖目标
   @override
-  void start({int target = 0, Duration duration, int repeatRound}) {
+  void start({int target = 0, Duration? duration, int? repeatRound}) {
     // 九宫格抽奖里范围为0~8
     assert(target >= 0 && target <= 8);
     // 如果是在实际抽奖过程中，则不能多次start
@@ -104,7 +104,7 @@ class SimpleLotteryController extends ValueNotifier<SimpleLotteryValue>
 
   /// 开启假的抽奖动画
   @override
-  void startFake({Duration singleRoundFakeDuration}) {
+  void startFake({Duration? singleRoundFakeDuration}) {
     if (value.isPlaying) {
       return;
     }

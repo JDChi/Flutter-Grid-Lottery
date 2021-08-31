@@ -4,10 +4,9 @@ import 'package:simplegridlottery/widget/simple_lottery_controller.dart';
 
 class SimpleLotteryWidget extends StatefulWidget {
   final SimpleLotteryController controller;
-  final Function onPress;
+  final Function? onPress;
 
-  SimpleLotteryWidget({Key key, @required this.controller, this.onPress})
-      : assert(controller != null);
+  SimpleLotteryWidget({Key? key, required this.controller, this.onPress});
 
   @override
   _SimpleLotteryWidgetState createState() => _SimpleLotteryWidgetState();
@@ -15,12 +14,12 @@ class SimpleLotteryWidget extends StatefulWidget {
 
 class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
     with TickerProviderStateMixin {
-  Animation<int> _selectedIndexTween;
-  AnimationController _startAnimateController;
+  late Animation<int> _selectedIndexTween;
+  late AnimationController _startAnimateController;
   int _currentSelect = -1;
   final int _totalIndex = 8;
 
-  VoidCallback _listener;
+  late VoidCallback _listener;
   bool _continueToTarget = false;
 
   /// 选中下标的映射
@@ -71,7 +70,7 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
   /// 初始化tween
   ///
   /// [target] 中奖的目标
-  Animation _initSelectIndexTween(
+  Animation<int> _initSelectIndexTween(
           {int begin = 0, int end = 0, Curve curve = Curves.linear}) =>
       StepTween(begin: begin, end: end).animate(
           CurvedAnimation(parent: _startAnimateController, curve: curve));
@@ -104,7 +103,8 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
     // 动画监听
     _startAnimateController.addListener(() {
       // 更新选中的下标
-      _currentSelect = _selectIndexMap[_selectedIndexTween.value % _totalIndex];
+      _currentSelect =
+          _selectIndexMap[_selectedIndexTween.value % _totalIndex]!;
 
       // 在假的抽奖过程到0位置时, 开启真的抽奖, 主要是起到无缝衔接
       if (_continueToTarget && _currentSelect == 0) {
@@ -151,7 +151,7 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
                     alignment: Alignment.center,
                     children: <Widget>[
                       Image.asset(widget.controller.value
-                          .rewardsList[_reverseSelectMap[index]]),
+                          .rewardsList[_reverseSelectMap[index]!]),
                       Container(
                         width: 50,
                         height: 50,
@@ -164,7 +164,9 @@ class _SimpleLotteryWidgetState extends State<SimpleLotteryWidget>
                 );
               }
               return GestureDetector(
-                onTap: () => widget.onPress(),
+                onTap: () {
+                  widget.onPress?.call();
+                },
                 child: Container(
                   color: Colors.red,
                 ),
